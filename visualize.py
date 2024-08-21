@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import time
 
 def plot_sub(cfg, 
-             adapt = False):
+             adapt = True):
     
     # open files
     if adapt:
@@ -15,15 +15,23 @@ def plot_sub(cfg,
         
     with open(path, 'rb') as f:
         acc_list = pkl.load(f)
-        adapt_acc_list = np.array(acc_list)
-        print(f"adapt acc list len: {len(acc_list)}")
+        adapt_acc_arr = np.array(acc_list) * 100
+        print(f"adapt acc list len: {len(adapt_acc_arr)}")
         
         
     # visualize
-    xs = np.linspace(0, len(acc_list), len(acc_list))
+    xs = np.linspace(0, len(adapt_acc_arr), len(adapt_acc_arr))
     
     # save plot
-    plt.plot(xs, acc_list)
+    if adapt:
+        m,b = np.polyfit(xs, adapt_acc_arr, 1)
+        plt.plot(xs, adapt_acc_arr)
+        plt.plot(xs, xs*m + b)
+        plt.title('BATCH ACC (%) (by iters)')
+    else:
+        plt.plot(xs, acc_list)
+        plt.title('TEST ACC (%) (by 10 iters)')
+        
     plt.savefig("plot_{}_{}_{}.png".format(cfg.adaptation, cfg.top_k, time.strftime('%y%m%d_%X')), dpi = 300)
     
     

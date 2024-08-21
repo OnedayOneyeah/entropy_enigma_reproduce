@@ -62,7 +62,7 @@ def adapt(adapt_loader,
     
     # save accs
     if not os.path.isdir(cfg.plot_dir):
-        os.mkdir(cfg.plot_dirs)
+        os.mkdir(cfg.plot_dir)
         
     adapt_acc_path = os.path.join(cfg.plot_dir, 'adapt_acc.pkl')
     test_acc_path = os.path.join(cfg.plot_dir, 'test_acc.pkl')
@@ -202,7 +202,7 @@ if __name__ == "__main__":
 
 
     print(cfg)
-    main(cfg)
+    # main(cfg)
     
     if cfg.plot:
         plot(cfg)
